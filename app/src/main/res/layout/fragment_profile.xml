@@ -165,7 +165,7 @@
             android:text="SAVE"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_text_extra2" />
+            app:layout_constraintTop_toBottomOf="@id/email_text_view" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
