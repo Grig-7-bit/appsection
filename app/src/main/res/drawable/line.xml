@@ -1,0 +1,10 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Нижняя линия (border bottom) -->
+    <item android:bottom="13dp" android:left="0dp" android:right="0dp" android:top="43dp">
+        <shape android:shape="rectangle">
+            <size android:height="2dp" />
+            <solid android:color="#FFFFFF" /> <!-- Белая линия, можно изменить -->
+        </shape>
+    </item>
+
+</layer-list>

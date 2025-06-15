@@ -1,0 +1,224 @@
+<resources>
+    <string name="app_name">App</string>
+    <string name="title_activity_main2">cAdd_section</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="back_button_desc">Кнопка "Назад"</string>
+    <string name="menu_button_desc">Кнопка "Меню"</string>
+    <string name="save_button_label">SAVE</string>
+    <string name="user_not_authenticated">User not authenticated</string>
+    <string name="no_email">No email</string>
+    <string name="error_loading_user_data">Error loading user data</string>
+    <string name="press_back_again_to_exit">Press back again to exit</string>
+    <string name="default_user_name">User</string>
+
+    <string name="profile_load_error">Ошибка загрузки профиля</string>
+    <string name="data_saved">Данные сохранены</string>
+    <string name="save_error">Ошибка сохранения</string>
+    <string name="enter_name_error">Введите имя</string>
+    <string name="initialization_error">Ошибка инициализации</string>
+
+    <string name="price_not_set">Цена не указана</string>
+    <string name="empty_sections_message">Нет доступных секций</string>
+    <string name="loading_error">Ошибка загрузки данных</string>
+    <string name="empty_sections">Секции не найдены</string>
+    <string name="index_creation_in_progress">Данные загружаются... Пожалуйста, подождите несколько минут</string>
+
+    <string name="auth_required">Требуется авторизация</string>
+    <string name="no_data_available">Данные недоступны</string>
+    <string name="data_parsing_error">Ошибка обработки данных</string>
+    <string name="connection_error">error</string>
+
+
+        <string-array name="cities">
+            <item>Абакан</item>
+            <item>Анадырь</item>
+            <item>Ангарск</item>
+            <item>Арзамас</item>
+            <item>Армавир</item>
+            <item>Архангельск</item>
+            <item>Астрахань</item>
+            <item>Балаково</item>
+            <item>Балашиха</item>
+            <item>Барнаул</item>
+            <item>Батайск</item>
+            <item>Белгород</item>
+            <item>Бердск</item>
+            <item>Бийск</item>
+            <item>Биробиджан</item>
+            <item>Благовещенск</item>
+            <item>Братск</item>
+            <item>Брянск</item>
+            <item>Великий Новгород</item>
+            <item>Владивосток</item>
+            <item>Владикавказ</item>
+            <item>Владимир</item>
+            <item>Волгоград</item>
+            <item>Волгодонск</item>
+            <item>Волжский</item>
+            <item>Вологда</item>
+            <item>Воркута</item>
+            <item>Воронеж</item>
+            <item>Гатчина</item>
+            <item>Грозный</item>
+            <item>Дербент</item>
+            <item>Дзержинск</item>
+            <item>Димитровград</item>
+            <item>Долгопрудный</item>
+            <item>Домодедово</item>
+            <item>Евпатория</item>
+            <item>Екатеринбург</item>
+            <item>Елец</item>
+            <item>Ессентуки</item>
+            <item>Железногорск</item>
+            <item>Жуковский</item>
+            <item>Златоуст</item>
+            <item>Иваново</item>
+            <item>Ижевск</item>
+            <item>Иркутск</item>
+            <item>Йошкар-Ола</item>
+            <item>Казань</item>
+            <item>Калининград</item>
+            <item>Калуга</item>
+            <item>Каменск-Уральский</item>
+            <item>Камышин</item>
+            <item>Канск</item>
+            <item>Каспийск</item>
+            <item>Кемерово</item>
+            <item>Керчь</item>
+            <item>Киров</item>
+            <item>Кисловодск</item>
+            <item>Ковров</item>
+            <item>Коломна</item>
+            <item>Комсомольск-на-Амуре</item>
+            <item>Копейск</item>
+            <item>Королёв</item>
+            <item>Кострома</item>
+            <item>Красногорск</item>
+            <item>Краснодар</item>
+            <item>Краснокаменск</item>
+            <item>Краснокамск</item>
+            <item>Красноярск</item>
+            <item>Курган</item>
+            <item>Курск</item>
+            <item>Кызыл</item>
+            <item>Ленинск-Кузнецкий</item>
+            <item>Липецк</item>
+            <item>Люберцы</item>
+            <item>Магадан</item>
+            <item>Магнитогорск</item>
+            <item>Майкоп</item>
+            <item>Махачкала</item>
+            <item>Миасс</item>
+            <item>Москва</item>
+            <item>Мурманск</item>
+            <item>Муром</item>
+            <item>Мытищи</item>
+            <item>Набережные Челны</item>
+            <item>Назрань</item>
+            <item>Нальчик</item>
+            <item>Находка</item>
+            <item>Невинномысск</item>
+            <item>Нефтекамск</item>
+            <item>Нефтеюганск</item>
+            <item>Нижневартовск</item>
+            <item>Нижнекамск</item>
+            <item>Нижний Новгород</item>
+            <item>Нижний Тагил</item>
+            <item>Новокузнецк</item>
+            <item>Новороссийск</item>
+            <item>Новосибирск</item>
+            <item>Новый Уренгой</item>
+            <item>Ногинск</item>
+            <item>Норильск</item>
+            <item>Ноябрьск</item>
+            <item>Обнинск</item>
+            <item>Одинцово</item>
+            <item>Октябрьский</item>
+            <item>Омск</item>
+            <item>Орёл</item>
+            <item>Оренбург</item>
+            <item>Орехово-Зуево</item>
+            <item>Орск</item>
+            <item>Пенза</item>
+            <item>Пермь</item>
+            <item>Петрозаводск</item>
+            <item>Подольск</item>
+            <item>Прокопьевск</item>
+            <item>Псков</item>
+            <item>Пушкино</item>
+            <item>Пятигорск</item>
+            <item>Ростов-на-Дону</item>
+            <item>Рубцовск</item>
+            <item>Рыбинск</item>
+            <item>Рязань</item>
+            <item>Салават</item>
+            <item>Самара</item>
+            <item>Санкт-Петербург</item>
+            <item>Саранск</item>
+            <item>Саратов</item>
+            <item>Севастополь</item>
+            <item>Северодвинск</item>
+            <item>Северск</item>
+            <item>Серпухов</item>
+            <item>Симферополь</item>
+            <item>Смоленск</item>
+            <item>Сочи</item>
+            <item>Ставрополь</item>
+            <item>Старый Оскол</item>
+            <item>Стерлитамак</item>
+            <item>Сургут</item>
+            <item>Сызрань</item>
+            <item>Сыктывкар</item>
+            <item>Таганрог</item>
+            <item>Тамбов</item>
+            <item>Тверь</item>
+            <item>Тольятти</item>
+            <item>Томск</item>
+            <item>Тула</item>
+            <item>Тюмень</item>
+            <item>Улан-Удэ</item>
+            <item>Ульяновск</item>
+            <item>Уссурийск</item>
+            <item>Уфа</item>
+            <item>Хабаровск</item>
+            <item>Ханты-Мансийск</item>
+            <item>Химки</item>
+            <item>Чебоксары</item>
+            <item>Челябинск</item>
+            <item>Череповец</item>
+            <item>Черкесск</item>
+            <item>Чита</item>
+            <item>Шахты</item>
+            <item>Щёлково</item>
+            <item>Электросталь</item>
+            <item>Элиста</item>
+            <item>Энгельс</item>
+            <item>Южно-Сахалинск</item>
+            <item>Якутск</item>
+            <item>Ярославль</item>
+        </string-array>
+
+    <string-array name="days_of_week">
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+        <item>Вс</item>
+    </string-array>
+
+
+
+</resources>

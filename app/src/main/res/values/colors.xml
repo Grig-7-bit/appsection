@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+
+
+    <!-- Цвета для кнопок -->
+    <color name="user_button_green">#A8E639</color> <!-- Светло-зеленый для кнопки USER -->
+    <color name="admin_button_green">#589B1A</color> <!-- Темно-зеленый для кнопки ADMIN -->
+    <color name="button_text_dark">#333333</color> <!-- Темный текст для кнопок -->
+    <!-- Кастомные цвета для нашей страницы -->
+    <color name="header_blue">#2196F3</color> <!-- Голубой цвет шапки -->
+    <color name="enter_green">#8BC34A</color> <!-- Ярко-зеленый для "Enter" -->
+    <color name="input_label_color">#FFFFFF</color> <!-- Белый для LOGIN/PASSWORD -->
+    <color name="next_button_bg">#B2EBF2</color> <!-- Светло-голубой фон кнопки NEXT -->
+    <color name="next_button_text">#002F55</color>
+    <color name="blue">#7affff</color> <!-- Светло-голубой текст кнопки NEXT -->
+
+    <color name="colorPrimary">#4FC3F7</color> <!-- Примерно ярко-голубой --> <!-- Цвет фона всего экрана -->
+    <color name="colorScreenBackground">#E0F7FA</color> <!-- Примерно светло-голубой --> <!-- Цвет основного блока информации и кнопки "SAVE" -->
+    <color name="colorContentBackground">#1976D2</color> <!-- Примерно тёмно-синий --> <!-- Цвет всего текста -->
+    <color name="colorTextPrimary">#FFFFFF</color> <!-- Белый -->
+
+
+    <!-- Основные цвета для фона и кнопок -->
+    <color name="blue_main_background">#56B2D4</color> <!-- Основной синий фон -->
+    <color name="blue_dark_button">#2A93C1</color>     <!-- Темно-синий для кнопки SAVE и круга профиля -->
+    <color name="blue_header_start">#B3E5FC</color>   <!-- Очень светлый синий для градиента заголовка -->
+
+    <!-- Общие цвета текста -->
+    <color name="white">#FFFFFF</color>
+    <color name="text_hint_color">#FFFFFF</color>
+    <color name="text_color">#FFFFFF</color>
+
+    <!-- Цвет текста для кнопки OUT (тот же, что и основной фон) -->
+    <color name="button_out_text_color">@color/blue_main_background</color>
+
+    <color name="blue_light">#4FC3F7</color>
+    <color name="blue_dark">#0288D1</color>
+    <color name="light_blue_bg">#E0FFFF</color>
+    <color name="red">#ff0000</color>
+</resources>

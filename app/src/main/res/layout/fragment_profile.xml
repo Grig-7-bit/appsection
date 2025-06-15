@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_main_background"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <!-- Верхняя часть с градиентом и иконкой меню -->
+    <View
+        android:id="@+id/header_background"
+        android:layout_width="403dp"
+        android:layout_height="22dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <!-- Основное содержимое экрана -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_content_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/header_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp">
+
+        <!-- Иконка профиля -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_account_circle"
+            android:background="@drawable/circle_shape"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:contentDescription="Profile Picture"
+            app:tint="@color/white" />
+
+        <!-- Поле ввода имени -->
+        <EditText
+            android:id="@+id/edit_text_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="name"
+            android:textColorHint="@color/text_hint_color"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/white"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/profile_image"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@id/edit_text_surname"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName" />
+
+        <!-- Поле ввода фамилии -->
+        <EditText
+            android:id="@+id/edit_text_surname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="surname"
+            android:textColorHint="@color/text_hint_color"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/white"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/edit_text_name"
+            app:layout_constraintEnd_toEndOf="@id/edit_text_name"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_name"
+            app:layout_constraintBottom_toBottomOf="@id/profile_image"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName" />
+
+        <!-- Дополнительные поля ввода (две горизонтальные линии) -->
+        <EditText
+            android:id="@+id/edit_text_extra1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/text_hint_color"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/white"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/profile_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:inputType="text"
+            android:hint="Phone number"/>
+
+        <TextView
+            android:id="@+id/email_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/text_hint_color"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/white"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_extra1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:inputType="text"
+             />
+
+        <Button
+            android:id="@+id/button_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EDIT"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/blue_dark_button"
+            android:minWidth="120dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/email_text_view"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Кнопка "SAVE" -->
+
+
+
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/blue_dark_button"
+            android:minWidth="120dp"
+            android:paddingStart="24dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="12dp"
+            android:text="SAVE"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_extra2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dEnter_info"
+    android:background="#E0FFFF">
+
+  <!-- Верхняя панель (Header) -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/header_layout"
+      android:layout_width="0dp"
+      android:layout_height="?attr/actionBarSize"
+      android:background="@color/colorPrimary"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back_button_desc"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <!-- Основной блок контента -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/main_content_box"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginTop="24dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginBottom="125dp"
+      android:background="@color/colorContentBackground"
+      app:layout_constraintTop_toBottomOf="@id/header_layout"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      >
+
+    <!-- Фиксированная верхняя часть -->
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#4FC3F7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/title_edit_text"/>
+
+    <EditText
+        android:id="@+id/title_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:hint="TITLE"
+        android:textSize="30sp"
+        android:singleLine="true"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/text_hint_color"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:paddingBottom="16dp">
+
+        <!-- Поле описания -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/description_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Description:"
+              android:textSize="25sp"
+              android:textColor="@color/text_color"/>
+
+          <EditText
+              android:id="@+id/description_edit_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="10dp"
+              android:layout_marginTop="5dp"
+              android:gravity="top|start"
+              android:hint=""
+              android:textSize="18sp"
+              android:inputType="textMultiLine"
+              android:singleLine="true"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:ellipsize="end"
+              />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/category_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Category:"
+              android:textSize="25sp"
+              android:textColor="@color/text_color"/>
+
+          <AutoCompleteTextView
+              android:id="@+id/category_auto_complete_text_view"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="5dp"
+              android:hint=""
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="text"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:completionThreshold="1"
+              android:dropDownSelector="@color/light_blue_bg"
+              android:popupBackground="@color/light_blue_bg"
+              android:dropDownVerticalOffset="0dp"
+              android:dropDownAnchor="@id/city_auto_complete_text_view"
+              android:overlapAnchor="false"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+
+        <!-- Поле города -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/city_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="City:"
+              android:textSize="25sp"
+              android:textColor="@color/text_color"/>
+
+          <AutoCompleteTextView
+              android:id="@+id/city_auto_complete_text_view"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="5dp"
+              android:hint=""
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="text"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:completionThreshold="1"
+              android:dropDownSelector="@color/light_blue_bg"
+              android:popupBackground="@color/light_blue_bg"
+              android:dropDownVerticalOffset="0dp"
+              android:dropDownAnchor="@id/city_auto_complete_text_view"
+              android:overlapAnchor="false"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+
+        <!-- Поле города -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/location_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Location:"
+              android:textSize="25sp"
+              android:textColor="@color/text_color"/>
+
+          <EditText
+              android:id="@+id/location_edit_text"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="10dp"
+              android:hint="address"
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="text"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+
+        <!-- Поле цены -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/price_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Price:"
+              android:textSize="25sp"
+              android:textColor="@color/text_color"/>
+
+          <EditText
+              android:id="@+id/price_edit_text"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="10dp"
+              android:hint="₽/month"
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="number"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+
+        <!-- Поле дня -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/schedule_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Schedule:"
+              android:textSize="25sp"
+              android:textColor="@color/text_color"/>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/schedule_day_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/description"
+                android:completionThreshold="1"
+                android:dropDownAnchor="@id/schedule_day_edit_text"
+                android:dropDownSelector="@color/light_blue_bg"
+                android:hint="day"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:overlapAnchor="false"
+                android:popupBackground="@color/light_blue_bg"
+                android:singleLine="true"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:textSize="18sp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"/>
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/schedule_time_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:hint="time"
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:completionThreshold="2"
+                android:dropDownSelector="@color/light_blue_bg"
+                android:popupBackground="@color/light_blue_bg"
+                android:dropDownAnchor="@id/schedule_time_edit_text"
+                android:overlapAnchor="false"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"/>
+          </LinearLayout>
+        </LinearLayout>
+
+        <!-- Поле цены -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/maxParticipants_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Members:"
+              android:textSize="25sp"
+              android:textColor="@color/text_color"/>
+
+          <EditText
+              android:id="@+id/maxParticipants_edit_text"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="10dp"
+              android:hint="max"
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="number"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/name_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Coach (owner):"
+              android:textSize="22sp"
+              android:textColor="@color/text_color"/>
+
+          <EditText
+              android:id="@+id/name_edit_text"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="10dp"
+              android:hint="full name"
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="text"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+
+        <!-- Поле телефона -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/phone_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Phone number:"
+              android:textSize="23sp"
+              android:textColor="@color/text_color"/>
+
+          <EditText
+              android:id="@+id/phone_edit_text"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="10dp"
+              android:hint=""
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="phone"
+              android:imeOptions="actionNext"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+        <!-- Поле телефона -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp">
+
+          <TextView
+              android:id="@+id/email_text_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Email:"
+              android:textSize="23sp"
+              android:textColor="@color/text_color"/>
+
+          <EditText
+              android:id="@+id/email_edit_text"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_marginStart="5dp"
+              android:layout_marginEnd="10dp"
+              android:hint=""
+              android:textSize="18sp"
+              android:singleLine="true"
+              android:inputType="textEmailAddress"
+              android:imeOptions="actionDone"
+              android:textColor="@color/text_color"
+              android:textColorHint="@color/text_hint_color"
+              android:background="@drawable/description"
+              android:scrollHorizontally="true"
+              android:ellipsize="end"/>
+        </LinearLayout>
+
+      </LinearLayout>
+    </ScrollView>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <!-- Кнопки внизу экрана -->
+  <Button
+      android:id="@+id/delete_button"
+      android:layout_width="140dp"
+      android:layout_height="40dp"
+      android:layout_marginEnd="125dp"
+      android:layout_marginBottom="74dp"
+      android:text="DELETE"
+      android:textColor="@color/colorContentBackground"
+      app:backgroundTint="@null"
+      android:background="@drawable/button_background"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+  <Button
+      android:id="@+id/save_button"
+      android:layout_width="135dp"
+      android:layout_height="48dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginBottom="70dp"
+      android:text="@string/save_button_label"
+      android:textColor="@color/colorTextPrimary"
+      android:backgroundTint="@color/colorContentBackground"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+  <Button
+      android:id="@+id/edit_button"
+      android:layout_width="135dp"
+      android:layout_height="48dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginBottom="70dp"
+      android:text="EDIT"
+      android:textColor="@color/colorTextPrimary"
+      android:backgroundTint="@color/colorContentBackground"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
