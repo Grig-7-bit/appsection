@@ -22,7 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.app.UtilityClasses.FirebaseConstants;
-import com.example.app.databinding.ActivityMain2Binding;
+import com.example.app.databinding.Activity2AllBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,7 +42,7 @@ public class cAdd_section  extends AppCompatActivity implements NavigationView.O
     private static final String NAME_FIELD = "name";
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMain2Binding binding;
+    private Activity2AllBinding binding;
     private NavController navController;
     private long backPressedTime;
     private Toast backToast;
@@ -58,7 +58,7 @@ public class cAdd_section  extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMain2Binding.inflate(getLayoutInflater());
+        binding = Activity2AllBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         initializeFirebase();
@@ -179,8 +179,9 @@ public class cAdd_section  extends AppCompatActivity implements NavigationView.O
 
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         String name = documentSnapshot.getString(NAME_FIELD);
+                        String surname = documentSnapshot.getString("surname");
                         if (name != null && !name.isEmpty()) {
-                            updateUserNameUI(name);
+                            updateUserNameUI(name, surname);
                         } else {
                             Log.d(TAG, "Name field is empty in profile");
 
@@ -213,10 +214,10 @@ public class cAdd_section  extends AppCompatActivity implements NavigationView.O
                 .addOnFailureListener(e -> Log.e(TAG, "Error creating profile document", e));
     }
 
-    private void updateUserNameUI(String name) {
+    private void updateUserNameUI(String name, String surname) {
         runOnUiThread(() -> {
             if (nameSurnameText != null) {
-                nameSurnameText.setText(name);
+                nameSurnameText.setText(name + " " + surname);
             } else {
                 Log.w(TAG, "nameSurnameText is null");
             }

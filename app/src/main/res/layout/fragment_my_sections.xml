@@ -19,18 +19,7 @@
             android:textColor="#0D47A1"
             android:textSize="35sp" />
 
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignTop="@+id/textView"
-            android:layout_alignBottom="@+id/textView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="3.5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="3.5dp"
-            app:backgroundTint="@null"
-            android:background="@null"
-            android:src="@drawable/baseline_filter_list_24" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

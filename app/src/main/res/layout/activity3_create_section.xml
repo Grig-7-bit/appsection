@@ -128,6 +128,7 @@
               />
         </LinearLayout>
 
+        <!-- Поле категории -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,29 +144,15 @@
               android:textSize="25sp"
               android:textColor="@color/text_color"/>
 
-          <AutoCompleteTextView
-              android:id="@+id/category_auto_complete_text_view"
-              android:layout_width="0dp"
+
+          <Spinner
+              android:id="@+id/category_spinner"
+              android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_weight="1"
-              android:layout_marginStart="5dp"
-              android:layout_marginEnd="5dp"
-              android:hint=""
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="text"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:completionThreshold="1"
-              android:dropDownSelector="@color/light_blue_bg"
-              android:popupBackground="@color/light_blue_bg"
-              android:dropDownVerticalOffset="0dp"
-              android:dropDownAnchor="@id/city_auto_complete_text_view"
-              android:overlapAnchor="false"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:background="@drawable/spinner_background"
+              android:popupBackground="#4FC3F7"
+              android:spinnerMode="dropdown"
+            />
         </LinearLayout>
 
         <!-- Поле города -->
@@ -200,8 +187,8 @@
               android:textColorHint="@color/text_hint_color"
               android:background="@drawable/description"
               android:completionThreshold="1"
-              android:dropDownSelector="@color/light_blue_bg"
-              android:popupBackground="@color/light_blue_bg"
+              android:dropDownSelector="#4FC3F7"
+              android:popupBackground="#4FC3F7"
               android:dropDownVerticalOffset="0dp"
               android:dropDownAnchor="@id/city_auto_complete_text_view"
               android:overlapAnchor="false"

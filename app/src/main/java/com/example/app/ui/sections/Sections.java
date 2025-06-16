@@ -91,18 +91,6 @@ public class Sections extends Fragment {
         binding.recyclerView.setHasFixedSize(true);
     }
 
-    private void openSectionDetails(SectionData section) {
-        if (currentUser == null) {
-            Toast.makeText(requireContext(), "Authentication required", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Intent intent = new Intent(requireActivity(), fSection.class);
-        intent.putExtra("section_id", section.getId());
-        sectionLauncher.launch(intent);
-        requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
     private void loadSectionsData() {
         if (currentUser == null) {
             showError("Authentication required");
@@ -116,8 +104,8 @@ public class Sections extends Fragment {
         binding.emptyState.setVisibility(View.GONE);
         binding.errorText.setVisibility(View.GONE);
 
-        listenerRegistration = db.collection("users").document(currentUser.getUid())
-                .collection("sections")
+        // Используем collectionGroup для поиска во всех коллекциях sections
+        listenerRegistration = db.collectionGroup("sections")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
@@ -139,35 +127,13 @@ public class Sections extends Fragment {
         List<SectionData> newSections = new ArrayList<>();
         for (QueryDocumentSnapshot doc : value) {
             try {
-                // Используем более безопасный метод для десериализации
-                SectionData section = new SectionData();
+                SectionData section = doc.toObject(SectionData.class);
                 section.setId(doc.getId());
-                section.setTitle(doc.getString("title"));
-                section.setDescription(doc.getString("description"));
-                // ... установка всех остальных полей вручную ...
-
-                // Для числовых полей
-                Long maxParticipants = doc.getLong("maxParticipants");
-                if (maxParticipants != null) {
-                    section.setMaxParticipants(maxParticipants.intValue());
-                }
-
-                Long currentParticipants = doc.getLong("currentParticipants");
-                if (currentParticipants != null) {
-                    // Устанавливаем без проверки для десериализации
-                    section.currentParticipants = currentParticipants.intValue();
-                }
-
-                // Для списков
-                List<String> registeredUsers = (List<String>) doc.get("registeredUsers");
-                if (registeredUsers != null) {
-                    section.setRegisteredUsers(registeredUsers);
-                }
-
+                // Сохраняем ID владельца секции
+                section.setOwnerId(doc.getReference().getParent().getParent().getId());
                 newSections.add(section);
             } catch (Exception e) {
                 Log.e(TAG, "Error parsing document: " + doc.getId(), e);
-                // Продолжаем обработку других документов
             }
         }
 
@@ -179,6 +145,21 @@ public class Sections extends Fragment {
             showEmptyState();
         }
     }
+
+    private void openSectionDetails(SectionData section) {
+        if (currentUser == null) {
+            Toast.makeText(requireContext(), "Authentication required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(requireActivity(), fSection.class);
+        intent.putExtra("section_id", section.getId());
+        // Передаем ID владельца секции
+        intent.putExtra("owner_id", section.getOwnerId());
+        sectionLauncher.launch(intent);
+
+    }
+
 
     private void updateSectionParticipants(String sectionId, int newCount) {
         for (int i = 0; i < sections.size(); i++) {

@@ -36,7 +36,7 @@ public class aLog_in extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity11_log_in);
 
         initFirebase();
         checkCurrentUser(); // Проверяем авторизацию при запуске

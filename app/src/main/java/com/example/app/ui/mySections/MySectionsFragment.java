@@ -1,7 +1,10 @@
 package com.example.app.ui.mySections;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +26,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MySectionsFragment extends Fragment {
-
+    private static final String TAG = "MySectionsFragment";
     private RecyclerView recyclerView;
     private ButtonAdapterToSections adapter;
     private List<SectionData> userSections = new ArrayList<>();
@@ -40,31 +44,26 @@ public class MySectionsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_sections, container, false);
 
-
-
-        // Инициализация Firebase
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Настройка RecyclerView с GridLayoutManager (2 колонки)
+        // Инициализация RecyclerView
         recyclerView = view.findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        // Добавляем отступы между элементами
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, true));
 
         adapter = new ButtonAdapterToSections(userSections, position -> {
-            // Обработка клика на секцию - переход в активность fSection
             SectionData selectedSection = userSections.get(position);
             Intent intent = new Intent(getActivity(), fSection.class);
             intent.putExtra("section_id", selectedSection.getId());
+            intent.putExtra("owner_id", selectedSection.getOwnerId());
             startActivity(intent);
         });
 
         recyclerView.setAdapter(adapter);
-
         return view;
     }
 
@@ -75,35 +74,72 @@ public class MySectionsFragment extends Fragment {
     }
 
     private void loadUserSections() {
-        if (currentUser == null) {
+        if (currentUser == null || getContext() == null) {
             Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        db.collection("users").document(currentUser.getUid())
-                .collection("sections")
-                .whereArrayContains("registeredUsers", currentUser.getUid())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        userSections.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            SectionData section = document.toObject(SectionData.class);
-                            section.setId(document.getId());
-                            userSections.add(section);
-                        }
-                        adapter.notifyDataSetChanged();
+        // Проверка интернета
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() == null) {
+            Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                        if (userSections.isEmpty()) {
-                            Toast.makeText(getContext(),
-                                    "You haven't added any sections yet",
-                                    Toast.LENGTH_SHORT).show();
+        // Запрос с обработкой ошибок
+        try {
+            db.collectionGroup("sections")
+                    .whereArrayContains("registeredUsers", currentUser.getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            userSections.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                try {
+                                    SectionData section = document.toObject(SectionData.class);
+                                    section.setId(document.getId());
+
+                                    // Безопасное получение ownerId
+                                    if (document.getReference() != null &&
+                                            document.getReference().getParent() != null) {
+                                        section.setOwnerId(document.getReference().getParent().getParent().getId());
+                                    }
+
+                                    userSections.add(section);
+                                } catch (Exception e) {
+                                    Log.e(TAG, "Error parsing document: " + e.getMessage());
+                                }
+                            }
+
+                            adapter.notifyDataSetChanged();
+
+                            if (userSections.isEmpty()) {
+                                Toast.makeText(getContext(),
+                                        "You haven't joined any sections yet",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            String error = task.getException() != null
+                                    ? task.getException().getMessage()
+                                    : "Unknown error";
+
+                            Log.e(TAG, "Firestore error: " + error);
+
+                            // Специальная обработка для FAILED_PRECONDITION
+                            if (error.contains("FAILED_PRECONDITION")) {
+                                Toast.makeText(getContext(),
+                                        "Database index is being created. Try again later.",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(),
+                                        "Failed to load: " + error,
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    } else {
-                        Toast.makeText(getContext(),
-                                "Error loading sections: " + task.getException(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+        } catch (Exception e) {
+            Log.e(TAG, "Query error: " + e.getMessage());
+        }
     }
 }
+

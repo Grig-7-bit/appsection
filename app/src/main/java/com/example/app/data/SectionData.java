@@ -10,6 +10,7 @@ import java.util.List;
 
 public class SectionData implements Parcelable {
     private List<String> registeredUsers;
+    private String rootDocumentId;
     private String id = "";
     private String title = "";
     private long timestamp = 0L;
@@ -86,6 +87,15 @@ public class SectionData implements Parcelable {
         dest.writeString(contactEmail);
         dest.writeStringList(imageUrls);
         dest.writeString(coach); // Запись нового поля в Parcel
+    }
+
+    public String getRootDocumentId() {
+
+        return rootDocumentId;
+    }
+
+    public void setRootDocumentId(String rootDocumentId) {
+        this.rootDocumentId = rootDocumentId;
     }
 
     // Геттер для поля coach

@@ -1,6 +1,5 @@
 package com.example.app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +27,12 @@ public class fSection extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
     private String sectionId;
+    private String ownerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fsection);
+        setContentView(R.layout.activity4_section);
 
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -44,8 +44,10 @@ public class fSection extends AppCompatActivity {
         }
 
         sectionId = getIntent().getStringExtra("section_id");
-        if (sectionId == null) {
-            Toast.makeText(this, "Ошибка: ID секции не указан", Toast.LENGTH_SHORT).show();
+        ownerId = getIntent().getStringExtra("owner_id"); // Получаем ID владельца
+
+        if (sectionId == null || ownerId == null) {
+            Toast.makeText(this, "Ошибка: недостаточно данных о секции", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -59,7 +61,8 @@ public class fSection extends AppCompatActivity {
     }
 
     private void loadSectionData() {
-        db.collection("users").document(currentUser.getUid())
+        // Загружаем из коллекции владельца, а не текущего пользователя
+        db.collection("users").document(ownerId)
                 .collection("sections").document(sectionId)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -69,12 +72,9 @@ public class fSection extends AppCompatActivity {
                             sectionData = document.toObject(SectionData.class);
                             if (sectionData != null) {
                                 sectionData.setId(document.getId());
-
-                                // Инициализируем список зарегистрированных пользователей, если он null
                                 if (sectionData.getRegisteredUsers() == null) {
                                     sectionData.setRegisteredUsers(new ArrayList<>());
                                 }
-
                                 initViews();
                                 updateButtonVisibility();
                             }
@@ -85,6 +85,87 @@ public class fSection extends AppCompatActivity {
                     } else {
                         Toast.makeText(fSection.this, "Ошибка загрузки секции", Toast.LENGTH_SHORT).show();
                         finish();
+                    }
+                });
+    }
+
+    private void registerForSection() {
+        if (sectionData.getCurrentParticipants() >= sectionData.getMaxParticipants()) {
+            Toast.makeText(this, "Секция уже заполнена", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<String> updatedRegisteredUsers = new ArrayList<>(
+                sectionData.getRegisteredUsers() != null ?
+                        sectionData.getRegisteredUsers() :
+                        new ArrayList<>()
+        );
+
+        if (updatedRegisteredUsers.contains(currentUser.getUid())) {
+            Toast.makeText(this, "Вы уже записаны на эту секцию", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        updatedRegisteredUsers.add(currentUser.getUid());
+
+        // Обновляем данные в коллекции владельца
+        db.collection("users").document(ownerId)
+                .collection("sections").document(sectionId)
+                .update(
+                        "currentParticipants", sectionData.getCurrentParticipants() + 1,
+                        "registeredUsers", updatedRegisteredUsers
+                )
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(fSection.this, "Вы успешно записаны", Toast.LENGTH_SHORT).show();
+                        updateLocalSectionData(
+                                sectionData.getCurrentParticipants() + 1,
+                                updatedRegisteredUsers
+                        );
+                        updateParticipantsText();
+                        updateButtonVisibility();
+                        setResult(RESULT_OK);
+                    } else {
+                        Toast.makeText(fSection.this, "Ошибка записи: " + task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void unregisterFromSection() {
+        List<String> updatedRegisteredUsers = new ArrayList<>(
+                sectionData.getRegisteredUsers() != null ?
+                        sectionData.getRegisteredUsers() :
+                        new ArrayList<>()
+        );
+
+        if (!updatedRegisteredUsers.contains(currentUser.getUid())) {
+            Toast.makeText(this, "Вы не записаны на эту секцию", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        updatedRegisteredUsers.remove(currentUser.getUid());
+
+        // Обновляем данные в коллекции владельца
+        db.collection("users").document(ownerId)
+                .collection("sections").document(sectionId)
+                .update(
+                        "currentParticipants", sectionData.getCurrentParticipants() - 1,
+                        "registeredUsers", updatedRegisteredUsers
+                )
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(fSection.this, "Вы отменили запись", Toast.LENGTH_SHORT).show();
+                        updateLocalSectionData(
+                                sectionData.getCurrentParticipants() - 1,
+                                updatedRegisteredUsers
+                        );
+                        updateParticipantsText();
+                        updateButtonVisibility();
+                        setResult(RESULT_OK);
+                    } else {
+                        Toast.makeText(fSection.this, "Ошибка отмены записи: " + task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -170,105 +251,7 @@ public class fSection extends AppCompatActivity {
         deleteButton.setOnClickListener(v -> unregisterFromSection());
     }
 
-    private void registerForSection() {
-        if (sectionData.getCurrentParticipants() >= sectionData.getMaxParticipants()) {
-            Toast.makeText(this, "Секция уже заполнена", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        // Создаем новый список на основе текущего
-        List<String> updatedRegisteredUsers = new ArrayList<>(
-                sectionData.getRegisteredUsers() != null ?
-                        sectionData.getRegisteredUsers() :
-                        new ArrayList<>()
-        );
-
-        // Проверяем, не записан ли уже пользователь
-        if (updatedRegisteredUsers.contains(currentUser.getUid())) {
-            Toast.makeText(this, "Вы уже записаны на эту секцию", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        updatedRegisteredUsers.add(currentUser.getUid());
-
-        // Обновляем данные в Firestore
-        db.collection("users").document(currentUser.getUid())
-                .collection("sections").document(sectionId)
-                .update(
-                        "currentParticipants", sectionData.getCurrentParticipants() + 1,
-                        "registeredUsers", updatedRegisteredUsers
-                )
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(fSection.this, "Вы успешно записаны", Toast.LENGTH_SHORT).show();
-
-                        // Обновляем локальные данные через новый метод
-                        updateLocalSectionData(
-                                sectionData.getCurrentParticipants() + 1,
-                                updatedRegisteredUsers
-                        );
-
-                        updateParticipantsText();
-                        updateButtonVisibility();
-
-                        // Возвращаем обновленные данные
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("updated_section_id", sectionId);
-                        resultIntent.putExtra("new_participants_count", sectionData.getCurrentParticipants());
-                        setResult(RESULT_OK, resultIntent);
-                    } else {
-                        Toast.makeText(fSection.this, "Ошибка записи: " + task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void unregisterFromSection() {
-        // Создаем новый список на основе текущего
-        List<String> updatedRegisteredUsers = new ArrayList<>(
-                sectionData.getRegisteredUsers() != null ?
-                        sectionData.getRegisteredUsers() :
-                        new ArrayList<>()
-        );
-
-        if (!updatedRegisteredUsers.contains(currentUser.getUid())) {
-            Toast.makeText(this, "Вы не записаны на эту секцию", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        updatedRegisteredUsers.remove(currentUser.getUid());
-
-        // Обновляем данные в Firestore
-        db.collection("users").document(currentUser.getUid())
-                .collection("sections").document(sectionId)
-                .update(
-                        "currentParticipants", sectionData.getCurrentParticipants() - 1,
-                        "registeredUsers", updatedRegisteredUsers
-                )
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(fSection.this, "Вы отменили запись", Toast.LENGTH_SHORT).show();
-
-                        // Обновляем локальные данные через новый метод
-                        updateLocalSectionData(
-                                sectionData.getCurrentParticipants() - 1,
-                                updatedRegisteredUsers
-                        );
-
-                        updateParticipantsText();
-                        updateButtonVisibility();
-
-                        // Возвращаем обновленные данные
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("updated_section_id", sectionId);
-                        resultIntent.putExtra("new_participants_count", sectionData.getCurrentParticipants());
-                        setResult(RESULT_OK, resultIntent);
-                    } else {
-                        Toast.makeText(fSection.this, "Ошибка отмены записи: " + task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 
     // Новый метод для обновления локальных данных
     private void updateLocalSectionData(int newParticipantsCount, List<String> newRegisteredUsers) {

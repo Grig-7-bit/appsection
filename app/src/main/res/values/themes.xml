@@ -14,10 +14,19 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.App.Bar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Цвет status bar -->
+        <item name="android:statusBarColor">@color/white</item>
+        <!-- Светлый или темный текст/иконки -->
+        <item name="android:windowLightStatusBar">true</item> <!-- true для темных иконок -->
+    </style>
 
     <style name="Theme.App.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:statusBarColor">@color/white</item>
     </style>
+
+
+
+
 </resources>

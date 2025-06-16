@@ -4,4 +4,12 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+    <style name="SpinnerTheme" parent="android:Widget.Material.Spinner">
+        <item name="android:textColor">#FFFFFF</item> <!-- Цвет выбранного текста -->
+    </style>
+
+    <style name="SpinnerPopupTheme" parent="android:Theme.Material.Light">
+        <item name="android:textColor">#000000</item> <!-- Цвет текста в списке -->
+        <item name="android:background">@color/light_blue_bg</item>
+    </style>
 </resources>

@@ -36,6 +36,8 @@ public class ProfileFragment extends Fragment {
     private static final String PROFILE_SUBCOLLECTION = "profile";
     private static final String USER_DATA_DOCUMENT = "userData";
     private static final String NAME_FIELD = "name";
+    private static final String SURNAME_FIELD = "surname";
+    private static final String PHONE_FIELD = "phone";
     private static final String EMAIL_FIELD = "email";
 
     @Override
@@ -74,43 +76,44 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initViews() {
+        // Установка email из Firebase Auth
+        if (currentUser != null && currentUser.getEmail() != null) {
+            binding.emailTextView.setText(currentUser.getEmail());
+        }
+
         binding.buttonSave.setOnClickListener(v -> {
             String name = binding.editTextName.getText().toString().trim();
-            if (validateName(name)) {
-                saveUserName(name);
+            String surname = binding.editTextSurname.getText().toString().trim();
+            String phone = binding.editTextExtra1.getText().toString().trim();
+
+            if (validateInput(name, surname, phone)) {
+                saveUserData(name, surname, phone);
             }
         });
 
         binding.buttonEdit.setOnClickListener(v -> setupEditMode(true));
-
-
         setupEditMode(false);
-
-        /*if (currentUser != null && currentUser.getEmail() != null) {
-            binding.textEmail.setText(currentUser.getEmail());
-        }*/
     }
 
-    private void setupEditMode(boolean isEditMode) {
-        if (binding == null) return;
-
-        binding.editTextName.setEnabled(isEditMode);
-        binding.editTextName.setFocusableInTouchMode(isEditMode);
-        binding.editTextName.setCursorVisible(isEditMode);
-        binding.buttonSave.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
-        binding.buttonEdit.setVisibility(isEditMode ? View.GONE : View.VISIBLE);
-
-        if (isEditMode) {
-            binding.editTextName.requestFocus();
-        }
-    }
-
-    private boolean validateName(String name) {
+    private boolean validateInput(String name, String surname, String phone) {
         if (TextUtils.isEmpty(name)) {
             binding.editTextName.setError(getString(R.string.enter_name_error));
             binding.editTextName.requestFocus();
             return false;
         }
+
+        if (TextUtils.isEmpty(surname)) {
+
+            binding.editTextSurname.requestFocus();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(phone)) {
+
+            binding.editTextExtra1.requestFocus();
+            return false;
+        }
+
         return true;
     }
 
@@ -129,11 +132,27 @@ public class ProfileFragment extends Fragment {
                     if (binding == null) return;
 
                     if (documentSnapshot.exists()) {
+                        // Загрузка имени
                         String name = documentSnapshot.getString(NAME_FIELD);
                         if (name != null && !name.isEmpty()) {
                             binding.editTextName.setText(name);
-                        } else {
-                            setDefaultName();
+                        }
+
+                        // Загрузка фамилии
+                        String surname = documentSnapshot.getString(SURNAME_FIELD);
+                        if (surname != null && !surname.isEmpty()) {
+                            binding.editTextSurname.setText(surname);
+                        }
+
+                        // Загрузка телефона
+                        String phone = documentSnapshot.getString(PHONE_FIELD);
+                        if (phone != null && !phone.isEmpty()) {
+                            binding.editTextExtra1.setText(phone);
+                        }
+
+                        // Установка email из Firebase Auth
+                        if (currentUser.getEmail() != null) {
+                            binding.emailTextView.setText(currentUser.getEmail());
                         }
                     } else {
                         createInitialProfileData();
@@ -142,7 +161,6 @@ public class ProfileFragment extends Fragment {
                 .addOnFailureListener(e -> {
                     Log.w(TAG, "Error loading profile data", e);
                     showToast(getString(R.string.profile_load_error));
-                    setDefaultName();
                 });
     }
 
@@ -153,35 +171,22 @@ public class ProfileFragment extends Fragment {
         profileData.put(EMAIL_FIELD, currentUser.getEmail());
         profileData.put(NAME_FIELD, currentUser.getDisplayName() != null ?
                 currentUser.getDisplayName() : "");
+        profileData.put(SURNAME_FIELD, "");
+        profileData.put(PHONE_FIELD, "");
 
         db.collection(USERS_COLLECTION)
                 .document(currentUser.getUid())
                 .collection(PROFILE_SUBCOLLECTION)
                 .document(USER_DATA_DOCUMENT)
                 .set(profileData)
-                .addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "Initial profile data created");
-                    setDefaultName();
-                })
-                .addOnFailureListener(e -> {
-                    Log.w(TAG, "Error creating initial profile data", e);
-                    setDefaultName();
-                });
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Initial profile data created"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error creating initial profile data", e));
     }
 
-    private void setDefaultName() {
-        if (currentUser != null && binding != null) {
-            String displayName = currentUser.getDisplayName();
-            binding.editTextName.setText(displayName != null && !displayName.isEmpty() ?
-                    displayName : "");
-        }
-    }
-
-    private void saveUserName(String name) {
+    private void saveUserData(String name, String surname, String phone) {
         if (currentUser == null || db == null || binding == null) return;
 
         binding.buttonSave.setEnabled(false);
-
 
         DocumentReference profileRef = db.collection(USERS_COLLECTION)
                 .document(currentUser.getUid())
@@ -190,8 +195,9 @@ public class ProfileFragment extends Fragment {
 
         Map<String, Object> updates = new HashMap<>();
         updates.put(NAME_FIELD, name);
+        updates.put(SURNAME_FIELD, surname);
+        updates.put(PHONE_FIELD, phone);
 
-        // Используем merge, чтобы не перезаписывать другие поля
         profileRef.set(updates, com.google.firebase.firestore.SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     showToast(getString(R.string.data_saved));
@@ -206,6 +212,30 @@ public class ProfileFragment extends Fragment {
                         binding.buttonSave.setEnabled(true);
                     }
                 });
+    }
+
+    // Остальные методы остаются без изменений
+    private void setupEditMode(boolean isEditMode) {
+        if (binding == null) return;
+
+        binding.editTextName.setEnabled(isEditMode);
+        binding.editTextName.setFocusableInTouchMode(isEditMode);
+        binding.editTextName.setCursorVisible(isEditMode);
+
+        binding.editTextSurname.setEnabled(isEditMode);
+        binding.editTextSurname.setFocusableInTouchMode(isEditMode);
+        binding.editTextSurname.setCursorVisible(isEditMode);
+
+        binding.editTextExtra1.setEnabled(isEditMode);
+        binding.editTextExtra1.setFocusableInTouchMode(isEditMode);
+        binding.editTextExtra1.setCursorVisible(isEditMode);
+
+        binding.buttonSave.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
+        binding.buttonEdit.setVisibility(isEditMode ? View.GONE : View.VISIBLE);
+
+        if (isEditMode) {
+            binding.editTextName.requestFocus();
+        }
     }
 
     private void logoutUser() {

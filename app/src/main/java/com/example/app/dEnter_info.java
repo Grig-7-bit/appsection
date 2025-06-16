@@ -14,7 +14,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,7 +30,7 @@ import com.example.app.UtilityClasses.CityArrayAdapter;
 import com.example.app.UtilityClasses.DayArrayAdapter;
 import com.example.app.UtilityClasses.TimeArrayAdapter;
 import com.example.app.data.SectionData;
-import com.example.app.databinding.ActivityMain3Binding;
+import com.example.app.databinding.Activity3CreateSectionBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -38,7 +43,7 @@ import java.util.Locale;
 
 public class dEnter_info extends AppCompatActivity {
 
-    private ActivityMain3Binding binding;
+    private Activity3CreateSectionBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
@@ -48,17 +53,20 @@ public class dEnter_info extends AppCompatActivity {
     private String currentSectionId = "";
     private String currentPrice = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMain3Binding.inflate(getLayoutInflater());
+        binding = Activity3CreateSectionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         try {
             mAuth = FirebaseAuth.getInstance();
             db = FirebaseFirestore.getInstance();
             currentUser = mAuth.getCurrentUser();
+            setupCategorySpinner();
 
             if (getIntent() != null) {
                 isEditMode = getIntent().hasExtra("section_id");
@@ -67,6 +75,10 @@ public class dEnter_info extends AppCompatActivity {
                     currentSectionId = "";
                 }
             }
+
+
+// В вашем Activity/Fragment
+
 
             initViews();
             setupUI();
@@ -84,6 +96,39 @@ public class dEnter_info extends AppCompatActivity {
             finish();
         }
     }
+
+    private void setupCategorySpinner() {
+        if (binding == null || binding.categorySpinner == null) return;
+
+        // Создаем адаптер для Spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.section_categories,
+                android.R.layout.simple_spinner_item
+        );
+
+        // Устанавливаем стиль для выпадающего списка
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Применяем адаптер к Spinner
+        binding.categorySpinner.setAdapter(adapter);
+
+        // Устанавливаем обработчик выбора элемента
+        binding.categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Первый элемент - подсказка "Выберите категорию"
+                if (position == 0 && isEditing) {
+                    //Toast.makeText(dEnter_info.this, "Пожалуйста, выберите категорию", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
 
     @SuppressLint("ClickableViewAccessibility")
     private void chooseCity() {
@@ -192,9 +237,7 @@ public class dEnter_info extends AppCompatActivity {
         if (binding.titleEditText != null) {
             binding.titleEditText.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_NEXT);
         }
-        if (binding.categoryAutoCompleteTextView != null) {
-            binding.categoryAutoCompleteTextView.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_NEXT);
-        }
+
         if (binding.cityAutoCompleteTextView != null) {
             binding.cityAutoCompleteTextView.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_NEXT);
         }
@@ -256,7 +299,7 @@ public class dEnter_info extends AppCompatActivity {
         if (binding.maxParticipantsEditText != null) binding.maxParticipantsEditText.setEnabled(enable);
         if (binding.phoneEditText != null) binding.phoneEditText.setEnabled(enable);
         if (binding.emailEditText != null) binding.emailEditText.setEnabled(enable);
-        if (binding.categoryAutoCompleteTextView != null) binding.categoryAutoCompleteTextView.setEnabled(enable);
+        if (binding.categorySpinner != null) binding.categorySpinner.setEnabled(enable);
 
         if (enable) {
             if (binding.titleEditText != null) binding.titleEditText.requestFocus();
@@ -292,7 +335,10 @@ public class dEnter_info extends AppCompatActivity {
         String maxParticipantsStr = binding.maxParticipantsEditText != null ? binding.maxParticipantsEditText.getText().toString().trim() : "";
         String phone = binding.phoneEditText != null ? binding.phoneEditText.getText().toString().trim() : "";
         String email = binding.emailEditText != null ? binding.emailEditText.getText().toString().trim() : "";
-        String category = binding.categoryAutoCompleteTextView != null ? binding.categoryAutoCompleteTextView.getText().toString().trim() : "";
+        String category = "";
+        if (binding.categorySpinner != null && binding.categorySpinner.getSelectedItemPosition() > 0) {
+            category = binding.categorySpinner.getSelectedItem().toString();
+        }
         String coach = binding.nameEditText != null ? binding.nameEditText.getText().toString().trim() : "";
 
         if (!isEditMode) {
@@ -309,7 +355,10 @@ public class dEnter_info extends AppCompatActivity {
                 return;
             }
             if (TextUtils.isEmpty(category)) {
-                showError("Введите категорию", binding.categoryAutoCompleteTextView);
+                Toast.makeText(this, "Пожалуйста, выберите категорию", Toast.LENGTH_SHORT).show();
+                if (binding.categorySpinner != null) {
+                    binding.categorySpinner.performClick();
+                }
                 return;
             }
             if (TextUtils.isEmpty(city)) {
@@ -384,6 +433,7 @@ public class dEnter_info extends AppCompatActivity {
             sectionData.setOwnerId(currentUser.getUid());
             sectionData.setTimestamp(System.currentTimeMillis());
             sectionData.setCoach(coach);
+            sectionData.setRootDocumentId("12345678");
 
             saveSectionToFirebase(sectionData, () -> {
                 Toast.makeText(this, "Раздел сохранен", Toast.LENGTH_SHORT).show();
@@ -480,8 +530,12 @@ public class dEnter_info extends AppCompatActivity {
             if (binding.descriptionEditText != null) {
                 binding.descriptionEditText.setText(sectionData.getDescription() != null ? sectionData.getDescription() : "");
             }
-            if (binding.categoryAutoCompleteTextView != null) {
-                binding.categoryAutoCompleteTextView.setText(sectionData.getCategory() != null ? sectionData.getCategory() : "");
+            if (binding.categorySpinner != null && sectionData.getCategory() != null) {
+                ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) binding.categorySpinner.getAdapter();
+                int position = adapter.getPosition(sectionData.getCategory());
+                if (position >= 0) {
+                    binding.categorySpinner.setSelection(position);
+                }
             }
             if (binding.cityAutoCompleteTextView != null) {
                 binding.cityAutoCompleteTextView.setText(sectionData.getCity() != null ? sectionData.getCity() : "");
