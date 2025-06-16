@@ -225,8 +225,8 @@ public class fSection extends AppCompatActivity {
             timesBuilder.append(times.get(i));
 
             if (i < days.size() - 1) {
-                daysBuilder.append("\n");
-                timesBuilder.append("\n");
+                daysBuilder.append(", ");  // Запятая + пробел вместо переноса строки
+                timesBuilder.append(", ");
             }
         }
 

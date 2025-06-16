@@ -289,16 +289,97 @@ public class dEnter_info extends AppCompatActivity {
         isEditing = enable;
         if (binding == null) return;
 
-        if (binding.titleEditText != null) binding.titleEditText.setEnabled(enable);
-        if (binding.descriptionEditText != null) binding.descriptionEditText.setEnabled(enable);
-        if (binding.cityAutoCompleteTextView != null) binding.cityAutoCompleteTextView.setEnabled(enable);
-        if (binding.locationEditText != null) binding.locationEditText.setEnabled(enable);
-        if (binding.priceEditText != null) binding.priceEditText.setEnabled(enable);
-        if (binding.scheduleDayEditText != null) binding.scheduleDayEditText.setEnabled(enable);
-        if (binding.scheduleTimeEditText != null) binding.scheduleTimeEditText.setEnabled(enable);
-        if (binding.maxParticipantsEditText != null) binding.maxParticipantsEditText.setEnabled(enable);
-        if (binding.phoneEditText != null) binding.phoneEditText.setEnabled(enable);
-        if (binding.emailEditText != null) binding.emailEditText.setEnabled(enable);
+        // Включаем/выключаем редактирование
+        if (binding.titleEditText != null) {
+            binding.titleEditText.setEnabled(enable);
+            binding.titleEditText.setFocusable(enable);
+            binding.titleEditText.setFocusableInTouchMode(enable);
+            binding.titleEditText.setClickable(!enable);
+        }
+        if (binding.descriptionEditText != null) {
+            binding.descriptionEditText.setEnabled(enable);
+            binding.descriptionEditText.setFocusable(enable);
+            binding.descriptionEditText.setFocusableInTouchMode(enable);
+            binding.descriptionEditText.setClickable(!enable);
+            binding.descriptionEditText.setHorizontallyScrolling(!enable);
+        }
+
+        // Аналогично для остальных полей...
+        if (binding.cityAutoCompleteTextView != null) {
+            binding.cityAutoCompleteTextView.setEnabled(enable);
+            binding.cityAutoCompleteTextView.setFocusable(enable);
+            binding.cityAutoCompleteTextView.setFocusableInTouchMode(enable);
+            binding.cityAutoCompleteTextView.setClickable(!enable);
+            binding.cityAutoCompleteTextView.setHorizontallyScrolling(!enable);
+        }
+
+        if (binding.locationEditText != null) {
+            binding.locationEditText.setEnabled(enable);
+            binding.locationEditText.setFocusable(enable);
+            binding.locationEditText.setFocusableInTouchMode(enable);
+            binding.locationEditText.setClickable(!enable);
+            binding.locationEditText.setHorizontallyScrolling(!enable);
+        }
+
+        if (binding.priceEditText != null) {
+            binding.priceEditText.setEnabled(enable);
+            binding.priceEditText.setFocusable(enable);
+            binding.priceEditText.setFocusableInTouchMode(enable);
+            binding.priceEditText.setClickable(!enable);
+            binding.priceEditText.setHorizontallyScrolling(!enable);
+        }
+
+        if (binding.scheduleDayEditText != null) {
+            binding.scheduleDayEditText.setEnabled(enable);
+            binding.scheduleDayEditText.setFocusable(enable);
+            binding.scheduleDayEditText.setFocusableInTouchMode(enable);
+            binding.scheduleDayEditText.setClickable(!enable);
+            binding.scheduleDayEditText.setHorizontallyScrolling(!enable);
+            binding.scheduleDayEditText.setTokenizer(enable ? new MultiAutoCompleteTextView.CommaTokenizer() : null);
+        }
+
+        if (binding.scheduleTimeEditText != null) {
+            binding.scheduleTimeEditText.setEnabled(enable);
+            binding.scheduleTimeEditText.setFocusable(enable);
+            binding.scheduleTimeEditText.setFocusableInTouchMode(enable);
+            binding.scheduleTimeEditText.setClickable(!enable);
+            binding.scheduleTimeEditText.setHorizontallyScrolling(!enable);
+            binding.scheduleTimeEditText.setTokenizer(enable ? new MultiAutoCompleteTextView.CommaTokenizer() : null);
+        }
+
+        if (binding.maxParticipantsEditText != null) {
+            binding.maxParticipantsEditText.setEnabled(enable);
+            binding.maxParticipantsEditText.setFocusable(enable);
+            binding.maxParticipantsEditText.setFocusableInTouchMode(enable);
+            binding.maxParticipantsEditText.setClickable(!enable);
+            binding.maxParticipantsEditText.setHorizontallyScrolling(!enable);
+        }
+
+        // Обработка поля coach (name_edit_text)
+        if (binding.nameEditText != null) {
+            binding.nameEditText.setEnabled(enable);
+            binding.nameEditText.setFocusable(enable);
+            binding.nameEditText.setFocusableInTouchMode(enable);
+            binding.nameEditText.setClickable(!enable);
+            binding.nameEditText.setHorizontallyScrolling(!enable);
+        }
+
+        if (binding.phoneEditText != null) {
+            binding.phoneEditText.setEnabled(enable);
+            binding.phoneEditText.setFocusable(enable);
+            binding.phoneEditText.setFocusableInTouchMode(enable);
+            binding.phoneEditText.setClickable(!enable);
+            binding.phoneEditText.setHorizontallyScrolling(!enable);
+        }
+
+        if (binding.emailEditText != null) {
+            binding.emailEditText.setEnabled(enable);
+            binding.emailEditText.setFocusable(enable);
+            binding.emailEditText.setFocusableInTouchMode(enable);
+            binding.emailEditText.setClickable(!enable);
+            binding.emailEditText.setHorizontallyScrolling(!enable);
+        }
+
         if (binding.categorySpinner != null) binding.categorySpinner.setEnabled(enable);
 
         if (enable) {

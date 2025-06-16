@@ -101,7 +101,7 @@ public class Sections extends Fragment {
             listenerRegistration.remove();
         }
 
-        binding.emptyState.setVisibility(View.GONE);
+
         binding.errorText.setVisibility(View.GONE);
 
         // Используем collectionGroup для поиска во всех коллекциях sections
@@ -177,14 +177,14 @@ public class Sections extends Fragment {
 
 
     private void showEmptyState() {
-        binding.emptyState.setVisibility(View.VISIBLE);
+
         binding.errorText.setVisibility(View.GONE);
     }
 
     private void showError(String message) {
         binding.errorText.setText(message);
         binding.errorText.setVisibility(View.VISIBLE);
-        binding.emptyState.setVisibility(View.GONE);
+
     }
 
     @Override

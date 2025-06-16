@@ -1,6 +1,7 @@
 package com.example.app.UtilityClasses;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +47,14 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.SectionVie
                 dpToPx(parent, 8)
         );
 
-        // Card background
+        // Увеличиваем высоту карточки
         View cardBackground = new View(parent.getContext());
         cardBackground.setId(View.generateViewId());
         cardBackground.setBackgroundResource(R.drawable.rectangle);
 
         ConstraintLayout.LayoutParams bgParams = new ConstraintLayout.LayoutParams(
                 0,
-                dpToPx(parent, 139)
+                dpToPx(parent, 160) // Увеличено с 139 до 160
         );
         bgParams.startToStart = ConstraintSet.PARENT_ID;
         bgParams.endToEnd = ConstraintSet.PARENT_ID;
@@ -93,12 +94,13 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.SectionVie
         titleText.setLayoutParams(titleParams);
         constraintLayout.addView(titleText);
 
-        // Category text
+        // Category text - изменено для поддержки многострочного текста
         TextView categoryText = new TextView(parent.getContext());
         categoryText.setId(R.id.text_category);
         categoryText.setTextColor(Color.parseColor("#4FC3F7"));
         categoryText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        categoryText.setMaxLines(1);
+        categoryText.setMaxLines(2); // Разрешено 2 строки вместо 1
+        categoryText.setEllipsize(TextUtils.TruncateAt.END);
 
         ConstraintLayout.LayoutParams categoryParams = new ConstraintLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -125,7 +127,7 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.SectionVie
         priceParams.startToStart = cardBackground.getId();
         priceParams.topToBottom = categoryText.getId();
         priceParams.leftMargin = dpToPx(parent, 8);
-        priceParams.topMargin = dpToPx(parent, 9);
+        priceParams.topMargin = dpToPx(parent, 4); // Уменьшен отступ сверху
         priceText.setLayoutParams(priceParams);
         constraintLayout.addView(priceText);
 
@@ -143,7 +145,7 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.SectionVie
         participantsParams.startToStart = cardBackground.getId();
         participantsParams.topToBottom = priceText.getId();
         participantsParams.leftMargin = dpToPx(parent, 8);
-        participantsParams.topMargin = dpToPx(parent, 9);
+        participantsParams.topMargin = dpToPx(parent, 4); // Уменьшен отступ сверху
         participantsText.setLayoutParams(participantsParams);
         constraintLayout.addView(participantsText);
 
@@ -160,7 +162,7 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.SectionVie
         TextView participantsTextView = holder.itemView.findViewById(R.id.text_participants);
 
         titleTextView.setText(section.getTitle());
-        categoryTextView.setText("Category: " + section.getCategory());
+        categoryTextView.setText("Category:\n" + section.getCategory());
         priceTextView.setText("Price: "+ String.format("%s ₽", section.getPrice()));
         participantsTextView.setText("Members: " + String.format("%d/%d",
                 section.getCurrentParticipants(),

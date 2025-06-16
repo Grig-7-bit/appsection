@@ -41,17 +41,21 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
 
-        int padding = dpToPx(parent, 8);
-        constraintLayout.setPadding(padding, padding, padding, padding);
+        constraintLayout.setPadding(
+                dpToPx(parent, 16),
+                dpToPx(parent, 8),
+                dpToPx(parent, 16),
+                dpToPx(parent, 8)
+        );
 
-        // 1. Создаем фон карточки
+        // Увеличиваем высоту карточки
         View cardBackground = new View(parent.getContext());
         cardBackground.setId(View.generateViewId());
         cardBackground.setBackgroundResource(R.drawable.rectangle);
 
         ConstraintLayout.LayoutParams bgParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
-                dpToPx(parent, 120)
+                0,
+                dpToPx(parent, 160) // Увеличено с 139 до 160
         );
         bgParams.startToStart = ConstraintSet.PARENT_ID;
         bgParams.endToEnd = ConstraintSet.PARENT_ID;
@@ -59,14 +63,14 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
         cardBackground.setLayoutParams(bgParams);
         constraintLayout.addView(cardBackground);
 
-        // 2. Синяя полоса сверху
+        // Blue strip
         View blueStrip = new View(parent.getContext());
         blueStrip.setId(View.generateViewId());
         blueStrip.setBackgroundColor(Color.parseColor("#4FC3F7"));
 
         ConstraintLayout.LayoutParams stripParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
-                dpToPx(parent, 32)
+                0,
+                dpToPx(parent, 28)
         );
         stripParams.startToStart = cardBackground.getId();
         stripParams.endToEnd = cardBackground.getId();
@@ -74,45 +78,43 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
         blueStrip.setLayoutParams(stripParams);
         constraintLayout.addView(blueStrip);
 
-        // 3. Текст названия секции
-        TextView nameText = new TextView(parent.getContext());
-        nameText.setId(R.id.text_name);
-        nameText.setTextColor(Color.parseColor("#0D47A1"));
-        nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        nameText.setMaxLines(1);
-        nameText.setEllipsize(TextUtils.TruncateAt.END);
+        // Title text
+        TextView titleText = new TextView(parent.getContext());
+        titleText.setId(R.id.text_name);
+        titleText.setTextColor(Color.parseColor("#0D47A1"));
+        titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
-        ConstraintLayout.LayoutParams nameParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
+        ConstraintLayout.LayoutParams titleParams = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        nameParams.startToStart = blueStrip.getId();
-        nameParams.endToEnd = blueStrip.getId();
-        nameParams.topToTop = blueStrip.getId();
-        nameParams.bottomToBottom = blueStrip.getId();
-        nameParams.leftMargin = dpToPx(parent, 8);
-        nameParams.rightMargin = dpToPx(parent, 8);
-        nameText.setLayoutParams(nameParams);
-        constraintLayout.addView(nameText);
+        titleParams.startToStart = blueStrip.getId();
+        titleParams.topToTop = blueStrip.getId();
+        titleParams.bottomToBottom = blueStrip.getId();
+        titleParams.leftMargin = dpToPx(parent, 8);
+        titleText.setLayoutParams(titleParams);
+        constraintLayout.addView(titleText);
 
+        // Category text - изменено для поддержки многострочного текста
         TextView categoryText = new TextView(parent.getContext());
         categoryText.setId(R.id.text_category);
         categoryText.setTextColor(Color.parseColor("#4FC3F7"));
         categoryText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        categoryText.setMaxLines(1);
+        categoryText.setMaxLines(2); // Разрешено 2 строки вместо 1
+        categoryText.setEllipsize(TextUtils.TruncateAt.END);
 
         ConstraintLayout.LayoutParams categoryParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
         );
         categoryParams.startToStart = cardBackground.getId();
         categoryParams.topToBottom = blueStrip.getId();
         categoryParams.leftMargin = dpToPx(parent, 8);
-        categoryParams.topMargin = dpToPx(parent, 5);
+        categoryParams.topMargin = dpToPx(parent, 9);
         categoryText.setLayoutParams(categoryParams);
         constraintLayout.addView(categoryText);
 
-        // 4. Текст цены
+        // Price text
         TextView priceText = new TextView(parent.getContext());
         priceText.setId(R.id.text_price);
         priceText.setTextColor(Color.parseColor("#4FC3F7"));
@@ -120,13 +122,13 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
         priceText.setMaxLines(1);
 
         ConstraintLayout.LayoutParams priceParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        priceParams.startToStart = cardBackground.getId();;
+        priceParams.startToStart = cardBackground.getId();
         priceParams.topToBottom = categoryText.getId();
         priceParams.leftMargin = dpToPx(parent, 8);
-        priceParams.topMargin = dpToPx(parent, 5);
+        priceParams.topMargin = dpToPx(parent, 4); // Уменьшен отступ сверху
         priceText.setLayoutParams(priceParams);
         constraintLayout.addView(priceText);
 
@@ -144,7 +146,7 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
         participantsParams.startToStart = cardBackground.getId();
         participantsParams.topToBottom = priceText.getId();
         participantsParams.leftMargin = dpToPx(parent, 8);
-        participantsParams.topMargin = dpToPx(parent, 5);
+        participantsParams.topMargin = dpToPx(parent, 4); // Уменьшен отступ сверху
         participantsText.setLayoutParams(participantsParams);
         constraintLayout.addView(participantsText);
 

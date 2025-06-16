@@ -46,8 +46,7 @@
       app:layout_constraintTop_toBottomOf="@id/header_layout"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
-      >
+      app:layout_constraintBottom_toBottomOf="parent">
 
     <!-- Фиксированная верхняя часть -->
     <View
@@ -108,24 +107,30 @@
               android:textSize="25sp"
               android:textColor="@color/text_color"/>
 
-          <EditText
-              android:id="@+id/description_edit_text"
+          <HorizontalScrollView
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="10dp"
               android:layout_marginTop="5dp"
-              android:gravity="top|start"
-              android:hint=""
-              android:textSize="18sp"
-              android:inputType="textMultiLine"
-              android:singleLine="true"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:ellipsize="end"
-              />
+              android:scrollbars="none">
+
+            <EditText
+                android:id="@+id/description_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"
+                android:gravity="top|start"
+                android:hint=""
+                android:textSize="18sp"
+                android:inputType="textMultiLine"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
 
         <!-- Поле категории -->
@@ -144,15 +149,13 @@
               android:textSize="25sp"
               android:textColor="@color/text_color"/>
 
-
           <Spinner
               android:id="@+id/category_spinner"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/spinner_background"
               android:popupBackground="#4FC3F7"
-              android:spinnerMode="dropdown"
-            />
+              android:spinnerMode="dropdown"/>
         </LinearLayout>
 
         <!-- Поле города -->
@@ -171,32 +174,39 @@
               android:textSize="25sp"
               android:textColor="@color/text_color"/>
 
-          <AutoCompleteTextView
-              android:id="@+id/city_auto_complete_text_view"
+          <HorizontalScrollView
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="5dp"
-              android:hint=""
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="text"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:completionThreshold="1"
-              android:dropDownSelector="#4FC3F7"
-              android:popupBackground="#4FC3F7"
-              android:dropDownVerticalOffset="0dp"
-              android:dropDownAnchor="@id/city_auto_complete_text_view"
-              android:overlapAnchor="false"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:scrollbars="none">
+
+            <AutoCompleteTextView
+                android:id="@+id/city_auto_complete_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:hint=""
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:completionThreshold="1"
+                android:dropDownSelector="#4FC3F7"
+                android:popupBackground="#4FC3F7"
+                android:dropDownVerticalOffset="0dp"
+                android:dropDownAnchor="@id/city_auto_complete_text_view"
+                android:overlapAnchor="false"
+                android:clickable="true"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
 
-        <!-- Поле города -->
+        <!-- Поле локации -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -212,23 +222,29 @@
               android:textSize="25sp"
               android:textColor="@color/text_color"/>
 
-          <EditText
-              android:id="@+id/location_edit_text"
+          <HorizontalScrollView
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="10dp"
-              android:hint="address"
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="text"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:scrollbars="none">
+
+            <com.example.app.CustomScrollableEditText
+                android:id="@+id/location_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:hint="address"
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
 
         <!-- Поле цены -->
@@ -247,23 +263,29 @@
               android:textSize="25sp"
               android:textColor="@color/text_color"/>
 
-          <EditText
-              android:id="@+id/price_edit_text"
+          <HorizontalScrollView
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="10dp"
-              android:hint="₽/month"
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="number"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:scrollbars="none">
+
+            <com.example.app.CustomScrollableEditText
+                android:id="@+id/price_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:hint="₽/month"
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
 
         <!-- Поле дня -->
@@ -287,56 +309,66 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-            <MultiAutoCompleteTextView
-                android:id="@+id/schedule_day_edit_text"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/description"
-                android:completionThreshold="1"
-                android:dropDownAnchor="@id/schedule_day_edit_text"
-                android:dropDownSelector="@color/light_blue_bg"
-                android:hint="day"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:overlapAnchor="false"
-                android:popupBackground="@color/light_blue_bg"
-                android:singleLine="true"
-                android:textColor="@color/text_color"
-                android:textColorHint="@color/text_hint_color"
-                android:textSize="18sp"
-                android:scrollHorizontally="true"
-                android:ellipsize="end"/>
+                android:scrollbars="none">
 
-            <MultiAutoCompleteTextView
-                android:id="@+id/schedule_time_edit_text"
+              <MultiAutoCompleteTextView
+                  android:id="@+id/schedule_day_edit_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:minWidth="200dp"
+                  android:background="@drawable/description"
+                  android:completionThreshold="1"
+                  android:dropDownAnchor="@id/schedule_day_edit_text"
+                  android:dropDownSelector="@color/light_blue_bg"
+                  android:hint="day"
+                  android:imeOptions="actionNext"
+                  android:inputType="text"
+                  android:overlapAnchor="false"
+                  android:popupBackground="@color/light_blue_bg"
+                  android:singleLine="true"
+                  android:textColor="@color/text_color"
+                  android:textColorHint="@color/text_hint_color"
+                  android:textSize="18sp"
+                  android:ellipsize="none"/>
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_weight="1"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="10dp"
-                android:hint="time"
-                android:textSize="18sp"
-                android:singleLine="true"
-                android:inputType="text"
-                android:imeOptions="actionNext"
-                android:textColor="@color/text_color"
-                android:textColorHint="@color/text_hint_color"
-                android:background="@drawable/description"
-                android:completionThreshold="2"
-                android:dropDownSelector="@color/light_blue_bg"
-                android:popupBackground="@color/light_blue_bg"
-                android:dropDownAnchor="@id/schedule_time_edit_text"
-                android:overlapAnchor="false"
-                android:scrollHorizontally="true"
-                android:ellipsize="end"/>
+                android:scrollbars="none">
+
+              <MultiAutoCompleteTextView
+                  android:id="@+id/schedule_time_edit_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:minWidth="200dp"
+                  android:hint="time"
+                  android:textSize="18sp"
+                  android:singleLine="true"
+                  android:inputType="text"
+                  android:imeOptions="actionNext"
+                  android:textColor="@color/text_color"
+                  android:textColorHint="@color/text_hint_color"
+                  android:background="@drawable/description"
+                  android:completionThreshold="2"
+                  android:dropDownSelector="@color/light_blue_bg"
+                  android:popupBackground="@color/light_blue_bg"
+                  android:dropDownAnchor="@id/schedule_time_edit_text"
+                  android:overlapAnchor="false"
+                  android:ellipsize="none"/>
+            </HorizontalScrollView>
           </LinearLayout>
         </LinearLayout>
 
-        <!-- Поле цены -->
+        <!-- Поле участников -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -352,25 +384,32 @@
               android:textSize="25sp"
               android:textColor="@color/text_color"/>
 
-          <EditText
-              android:id="@+id/maxParticipants_edit_text"
+          <HorizontalScrollView
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="10dp"
-              android:hint="max"
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="number"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:scrollbars="none">
+
+            <com.example.app.CustomScrollableEditText
+                android:id="@+id/maxParticipants_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:hint="max"
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
 
+        <!-- Поле тренера -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -386,23 +425,29 @@
               android:textSize="22sp"
               android:textColor="@color/text_color"/>
 
-          <EditText
-              android:id="@+id/name_edit_text"
+          <HorizontalScrollView
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="10dp"
-              android:hint="full name"
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="text"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:scrollbars="none">
+
+            <com.example.app.CustomScrollableEditText
+                android:id="@+id/name_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:hint="full name"
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
 
         <!-- Поле телефона -->
@@ -421,25 +466,32 @@
               android:textSize="23sp"
               android:textColor="@color/text_color"/>
 
-          <EditText
-              android:id="@+id/phone_edit_text"
+          <HorizontalScrollView
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="10dp"
-              android:hint=""
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="phone"
-              android:imeOptions="actionNext"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:scrollbars="none">
+
+            <com.example.app.CustomScrollableEditText
+                android:id="@+id/phone_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:hint=""
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="phone"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
-        <!-- Поле телефона -->
+
+        <!-- Поле email -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -455,23 +507,29 @@
               android:textSize="23sp"
               android:textColor="@color/text_color"/>
 
-          <EditText
-              android:id="@+id/email_edit_text"
+          <HorizontalScrollView
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
               android:layout_marginStart="5dp"
               android:layout_marginEnd="10dp"
-              android:hint=""
-              android:textSize="18sp"
-              android:singleLine="true"
-              android:inputType="textEmailAddress"
-              android:imeOptions="actionDone"
-              android:textColor="@color/text_color"
-              android:textColorHint="@color/text_hint_color"
-              android:background="@drawable/description"
-              android:scrollHorizontally="true"
-              android:ellipsize="end"/>
+              android:scrollbars="none">
+
+            <com.example.app.CustomScrollableEditText
+                android:id="@+id/email_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="200dp"
+                android:hint=""
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionDone"
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/description"
+                android:ellipsize="none"/>
+          </HorizontalScrollView>
         </LinearLayout>
 
       </LinearLayout>

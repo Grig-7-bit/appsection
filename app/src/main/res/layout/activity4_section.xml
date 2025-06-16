@@ -192,18 +192,24 @@
                         android:textSize="25sp"
                         android:textColor="@color/text_color"/>
 
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="none"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/description">
+
                     <TextView
                         android:id="@+id/location_text_view"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
                         android:textSize="18sp"
                         android:textColor="@color/text_color"
-                        android:background="@drawable/description"
                         android:scrollHorizontally="true"
                         android:ellipsize="end"/>
+                    </HorizontalScrollView>
                 </LinearLayout>
 
                 <!-- Поле цены -->
@@ -257,32 +263,46 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:scrollbars="none"
+                            android:background="@drawable/description"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp">
+
                         <TextView
                             android:id="@+id/schedule_day_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
+
                             android:layout_weight="1"
-                            android:background="@drawable/description"
+
                             android:textSize="18sp"
                             android:textColor="@color/text_color"
                             android:scrollHorizontally="true"
                             android:ellipsize="end"/>
+                        </HorizontalScrollView>
 
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:scrollbars="none"
+                            android:background="@drawable/description"
+                            android:layout_weight="1"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="10dp">
                         <TextView
                             android:id="@+id/schedule_time_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="10dp"
+
                             android:textSize="18sp"
                             android:textColor="@color/text_color"
-                            android:background="@drawable/description"
                             android:scrollHorizontally="true"
                             android:ellipsize="end"/>
+                        </HorizontalScrollView>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -331,18 +351,24 @@
                         android:text="Coach (owner):"
                         android:textSize="22sp"
                         android:textColor="@color/text_color"/>
-
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="none"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/description">
                     <TextView
                         android:id="@+id/coach_text_view"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
+
                         android:textSize="18sp"
                         android:textColor="@color/text_color"
-                        android:background="@drawable/description"
+
                         android:ellipsize="end"/>
+                    </HorizontalScrollView>
                 </LinearLayout>
 
                 <!-- Поле телефона -->
@@ -391,18 +417,24 @@
                         android:textSize="23sp"
                         android:textColor="@color/text_color"/>
 
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="none"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/description"
+                        >
                     <TextView
                         android:id="@+id/email_text_view"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
                         android:textSize="18sp"
                         android:textColor="@color/text_color"
-                        android:background="@drawable/description"
                         android:scrollHorizontally="true"
                         android:ellipsize="end"/>
+                    </HorizontalScrollView>
                 </LinearLayout>
 
             </LinearLayout>
