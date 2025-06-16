@@ -95,6 +95,23 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
         nameText.setLayoutParams(nameParams);
         constraintLayout.addView(nameText);
 
+        TextView categoryText = new TextView(parent.getContext());
+        categoryText.setId(R.id.text_category);
+        categoryText.setTextColor(Color.parseColor("#4FC3F7"));
+        categoryText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        categoryText.setMaxLines(1);
+
+        ConstraintLayout.LayoutParams categoryParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+        );
+        categoryParams.startToStart = cardBackground.getId();
+        categoryParams.topToBottom = blueStrip.getId();
+        categoryParams.leftMargin = dpToPx(parent, 8);
+        categoryParams.topMargin = dpToPx(parent, 5);
+        categoryText.setLayoutParams(categoryParams);
+        constraintLayout.addView(categoryText);
+
         // 4. Текст цены
         TextView priceText = new TextView(parent.getContext());
         priceText.setId(R.id.text_price);
@@ -106,12 +123,30 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
-        priceParams.startToStart = cardBackground.getId();
-        priceParams.topToBottom = blueStrip.getId();
+        priceParams.startToStart = cardBackground.getId();;
+        priceParams.topToBottom = categoryText.getId();
         priceParams.leftMargin = dpToPx(parent, 8);
-        priceParams.topMargin = dpToPx(parent, 8);
+        priceParams.topMargin = dpToPx(parent, 5);
         priceText.setLayoutParams(priceParams);
         constraintLayout.addView(priceText);
+
+        // Participants text
+        TextView participantsText = new TextView(parent.getContext());
+        participantsText.setId(R.id.text_participants);
+        participantsText.setTextColor(Color.parseColor("#4FC3F7"));
+        participantsText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        participantsText.setMaxLines(1);
+
+        ConstraintLayout.LayoutParams participantsParams = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        participantsParams.startToStart = cardBackground.getId();
+        participantsParams.topToBottom = priceText.getId();
+        participantsParams.leftMargin = dpToPx(parent, 8);
+        participantsParams.topMargin = dpToPx(parent, 5);
+        participantsText.setLayoutParams(participantsParams);
+        constraintLayout.addView(participantsText);
 
         return new SectionViewHolder(constraintLayout);
     }
@@ -122,9 +157,16 @@ public class ButtonAdapterToSections extends RecyclerView.Adapter<ButtonAdapterT
 
         TextView nameTextView = holder.itemView.findViewById(R.id.text_name);
         TextView priceTextView = holder.itemView.findViewById(R.id.text_price);
+        TextView categoryTextView = holder.itemView.findViewById(R.id.text_category);
+        TextView participantsTextView = holder.itemView.findViewById(R.id.text_participants);
+
 
         nameTextView.setText(section.getTitle() != null ? section.getTitle() : "No title");
-        priceTextView.setText(section.getPrice() != null ? section.getPrice() : "No price");
+        priceTextView.setText("Price: " + section.getPrice() + "₽");
+        categoryTextView.setText("Category: " + section.getCategory());
+        participantsTextView.setText("Members: " + String.format("%d/%d",
+                section.getCurrentParticipants(),
+                section.getMaxParticipants()));
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

@@ -114,9 +114,9 @@ public class MySectionsFragment extends Fragment {
                             adapter.notifyDataSetChanged();
 
                             if (userSections.isEmpty()) {
-                                Toast.makeText(getContext(),
+                                /*Toast.makeText(getContext(),
                                         "You haven't joined any sections yet",
-                                        Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_SHORT).show();*/
                             }
                         } else {
                             String error = task.getException() != null

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,26 +12,27 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.R;
+import com.example.app.data.SectionData;
 
 import java.util.List;
 
-public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ButtonViewHolder> {
+public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.SectionViewHolder> {
 
-    private final List<String> buttonTitles;
-    private final OnButtonClickListener listener;
+    private final List<SectionData> sections;
+    private final OnSectionClickListener listener;
 
-    public interface OnButtonClickListener {
-        void onButtonClick(int position);
+    public interface OnSectionClickListener {
+        void onSectionClick(int position);
     }
 
-    public ButtonAdapter(List<String> buttonTitles, OnButtonClickListener listener) {
-        this.buttonTitles = buttonTitles;
+    public ButtonAdapter(List<SectionData> sections, OnSectionClickListener listener) {
+        this.sections = sections;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public ButtonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ConstraintLayout constraintLayout = new ConstraintLayout(parent.getContext());
         constraintLayout.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -40,19 +40,19 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ButtonView
         ));
 
         constraintLayout.setPadding(
-                dpToPx(parent, 16), // left
-                dpToPx(parent, 8),  // top
-                dpToPx(parent, 16), // right
-                dpToPx(parent, 8)   // bottom
+                dpToPx(parent, 16),
+                dpToPx(parent, 8),
+                dpToPx(parent, 16),
+                dpToPx(parent, 8)
         );
 
-        // 2. Создаем кнопку (фон)
+        // Card background
         View cardBackground = new View(parent.getContext());
         cardBackground.setId(View.generateViewId());
         cardBackground.setBackgroundResource(R.drawable.rectangle);
 
         ConstraintLayout.LayoutParams bgParams = new ConstraintLayout.LayoutParams(
-                0, // width будет установлен через constraints
+                0,
                 dpToPx(parent, 139)
         );
         bgParams.startToStart = ConstraintSet.PARENT_ID;
@@ -61,13 +61,13 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ButtonView
         cardBackground.setLayoutParams(bgParams);
         constraintLayout.addView(cardBackground);
 
-        // 3. Синяя полоса сверху
+        // Blue strip
         View blueStrip = new View(parent.getContext());
         blueStrip.setId(View.generateViewId());
         blueStrip.setBackgroundColor(Color.parseColor("#4FC3F7"));
 
         ConstraintLayout.LayoutParams stripParams = new ConstraintLayout.LayoutParams(
-                0, // width
+                0,
                 dpToPx(parent, 28)
         );
         stripParams.startToStart = cardBackground.getId();
@@ -76,68 +76,106 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ButtonView
         blueStrip.setLayoutParams(stripParams);
         constraintLayout.addView(blueStrip);
 
-        // 4. Текст "Name"
-        TextView nameText = new TextView(parent.getContext());
-        nameText.setId(R.id.text_name);
-        nameText.setText("Name");
-        nameText.setTextColor(Color.parseColor("#0D47A1"));
-        nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        // Title text
+        TextView titleText = new TextView(parent.getContext());
+        titleText.setId(R.id.text_name);
+        titleText.setTextColor(Color.parseColor("#0D47A1"));
+        titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
-        ConstraintLayout.LayoutParams nameParams = new ConstraintLayout.LayoutParams(
+        ConstraintLayout.LayoutParams titleParams = new ConstraintLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        nameParams.startToStart = blueStrip.getId();
-        nameParams.topToTop = blueStrip.getId();
-        nameParams.bottomToBottom = blueStrip.getId();
-        nameParams.leftMargin = dpToPx(parent, 8);
-        nameText.setLayoutParams(nameParams);
-        constraintLayout.addView(nameText);
+        titleParams.startToStart = blueStrip.getId();
+        titleParams.topToTop = blueStrip.getId();
+        titleParams.bottomToBottom = blueStrip.getId();
+        titleParams.leftMargin = dpToPx(parent, 8);
+        titleText.setLayoutParams(titleParams);
+        constraintLayout.addView(titleText);
 
-        // 5. Текст "Price"
+        // Category text
+        TextView categoryText = new TextView(parent.getContext());
+        categoryText.setId(R.id.text_category);
+        categoryText.setTextColor(Color.parseColor("#4FC3F7"));
+        categoryText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        categoryText.setMaxLines(1);
+
+        ConstraintLayout.LayoutParams categoryParams = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        categoryParams.startToStart = cardBackground.getId();
+        categoryParams.topToBottom = blueStrip.getId();
+        categoryParams.leftMargin = dpToPx(parent, 8);
+        categoryParams.topMargin = dpToPx(parent, 9);
+        categoryText.setLayoutParams(categoryParams);
+        constraintLayout.addView(categoryText);
+
+        // Price text
         TextView priceText = new TextView(parent.getContext());
         priceText.setId(R.id.text_price);
-        priceText.setText("Price:");
         priceText.setTextColor(Color.parseColor("#4FC3F7"));
-        priceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        priceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        priceText.setMaxLines(1);
 
         ConstraintLayout.LayoutParams priceParams = new ConstraintLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
         priceParams.startToStart = cardBackground.getId();
-        priceParams.topToBottom = blueStrip.getId();
+        priceParams.topToBottom = categoryText.getId();
         priceParams.leftMargin = dpToPx(parent, 8);
-        priceParams.topMargin = dpToPx(parent, 8);
+        priceParams.topMargin = dpToPx(parent, 9);
         priceText.setLayoutParams(priceParams);
         constraintLayout.addView(priceText);
 
-        return new ButtonViewHolder(constraintLayout);
+        // Participants text
+        TextView participantsText = new TextView(parent.getContext());
+        participantsText.setId(R.id.text_participants);
+        participantsText.setTextColor(Color.parseColor("#4FC3F7"));
+        participantsText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        participantsText.setMaxLines(1);
+
+        ConstraintLayout.LayoutParams participantsParams = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        participantsParams.startToStart = cardBackground.getId();
+        participantsParams.topToBottom = priceText.getId();
+        participantsParams.leftMargin = dpToPx(parent, 8);
+        participantsParams.topMargin = dpToPx(parent, 9);
+        participantsText.setLayoutParams(participantsParams);
+        constraintLayout.addView(participantsText);
+
+        return new SectionViewHolder(constraintLayout);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ButtonViewHolder holder, int position) {
-        TextView nameTextView = holder.itemView.findViewById(R.id.text_name);
+    public void onBindViewHolder(@NonNull SectionViewHolder holder, int position) {
+        SectionData section = sections.get(position);
+
+        TextView titleTextView = holder.itemView.findViewById(R.id.text_name);
+        TextView categoryTextView = holder.itemView.findViewById(R.id.text_category);
         TextView priceTextView = holder.itemView.findViewById(R.id.text_price);
+        TextView participantsTextView = holder.itemView.findViewById(R.id.text_participants);
 
-        if (nameTextView != null) {
-            nameTextView.setText(buttonTitles.get(position));
-        }
+        titleTextView.setText(section.getTitle());
+        categoryTextView.setText("Category: " + section.getCategory());
+        priceTextView.setText("Price: "+ String.format("%s ₽", section.getPrice()));
+        participantsTextView.setText("Members: " + String.format("%d/%d",
+                section.getCurrentParticipants(),
+                section.getMaxParticipants()));
 
-        if (priceTextView != null) {
-            priceTextView.setText("ID: " + (position + 1)); // Или другая логика отображения
-        }
-
-        holder.itemView.setOnClickListener(v -> listener.onButtonClick(position));
+        holder.itemView.setOnClickListener(v -> listener.onSectionClick(position));
     }
 
     @Override
     public int getItemCount() {
-        return buttonTitles.size();
+        return sections.size();
     }
 
-    static class ButtonViewHolder extends RecyclerView.ViewHolder {
-        ButtonViewHolder(View itemView) {
+    static class SectionViewHolder extends RecyclerView.ViewHolder {
+        SectionViewHolder(View itemView) {
             super(itemView);
         }
     }

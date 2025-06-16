@@ -15,9 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.app.UtilityClasses.ButtonAdapter;
 import com.example.app.dEnter_info;
 import com.example.app.databinding.FragmentCreateSectionBinding;
+import com.example.app.data.SectionData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,15 +31,13 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private final static String TAG = "HomeFragment";
-
+    private static final String TAG = "HomeFragment";
     private FragmentCreateSectionBinding binding;
     private ButtonAdapter adapter;
-    private final List<String> buttonTitles = new ArrayList<>();
+    private final List<SectionData> sections = new ArrayList<>();
     private ActivityResultLauncher<Intent> addButtonLauncher;
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
-    private List<String> sectionIds = new ArrayList<>(); // Добавлено для хранения ID разделов
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -63,17 +63,16 @@ public class HomeFragment extends Fragment {
         addButtonLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == getActivity().RESULT_OK) {
-                        loadSections(); // Обновляем список после изменений
+                    if (result.getResultCode() == requireActivity().RESULT_OK) {
+                        loadSections();
                     }
                 });
     }
 
     private void setupRecyclerView() {
-        adapter = new ButtonAdapter(buttonTitles, position -> {
-            String sectionTitle = buttonTitles.get(position);
-            String sectionId = sectionIds.get(position);
-            openSectionEditor(sectionId, sectionTitle);
+        adapter = new ButtonAdapter(sections, position -> {
+            SectionData section = sections.get(position);
+            openSectionEditor(section.getId(), section.getTitle());
         });
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
@@ -88,31 +87,32 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSections() {
-        if (currentUser != null) {
-            db.collection("users")
-                    .document(currentUser.getUid())
-                    .collection("sections")
-                    .orderBy("timestamp", Query.Direction.ASCENDING)
-                    .addSnapshotListener((value, error) -> {
-                        if (error != null) {
-                            Log.w(TAG, "Listen failed.", error);
-                            return;
-                        }
-
-                        buttonTitles.clear();
-                        sectionIds.clear();
-                        if (value != null) {
-                            for (QueryDocumentSnapshot doc : value) {
-                                String title = doc.getString("title");
-                                if (title != null) {
-                                    buttonTitles.add(title);
-                                    sectionIds.add(doc.getId());
-                                }
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
-                    });
+        if (currentUser == null) {
+            Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        db.collection("users")
+                .document(currentUser.getUid())
+                .collection("sections")
+                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Log.w(TAG, "Listen failed.", error);
+                        Toast.makeText(requireContext(), "Error loading sections", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    sections.clear();
+                    if (value != null) {
+                        for (QueryDocumentSnapshot doc : value) {
+                            SectionData section = doc.toObject(SectionData.class);
+                            section.setId(doc.getId());
+                            sections.add(section);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                });
     }
 
     private void openSectionEditor(String sectionId, String sectionTitle) {

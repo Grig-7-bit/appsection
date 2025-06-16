@@ -2,4 +2,7 @@
 <resources>
     <item name="text_name" type="id" />
     <item name="text_price" type="id" />
+    <item name="text_category" type="id" />
+    <item name="text_participants" type="id" />
+
 </resources>
